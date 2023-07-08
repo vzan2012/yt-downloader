@@ -2,7 +2,7 @@ import "./App.scss";
 import { Card, Col, Container, Row } from "react-bootstrap";
 
 import Header from "./components/Layout/Header/Header";
-import YouTubeDownloader from "./components/YouTubeDownloader/YouTubeDownloader";
+import YouTubeDownloader from "./components/YouTube/YouTubeDownloader/YouTubeDownloader";
 
 function App() {
   return (

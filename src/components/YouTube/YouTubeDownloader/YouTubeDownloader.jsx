@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "./YouTubeDownloader.scss";
 import { Button, Form } from "react-bootstrap";
+import YouTubeConverter from "../YouTubeConverter/YouTubeConverter";
 
 const YouTubeDownloader = () => {
   const [youtubeID, setYouTubeID] = useState("");
@@ -29,6 +30,8 @@ const YouTubeDownloader = () => {
     if (youtubeID && fileType) {
       console.log(youtubeID);
       console.log(fileType);
+
+      YouTubeConverter(youtubeID);
     }
 
     resetForm();
