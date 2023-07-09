@@ -1,5 +1,5 @@
 // import { YouTubeAudioV2 } from "node-tube-dl";
-import * as yt from "yt-converter";
+// import * as yt from "yt-converter";
 // const yt = require("yt-converter");
 
 const YouTubeConverter = (youtubeID) => {
@@ -7,7 +7,7 @@ const YouTubeConverter = (youtubeID) => {
 
   console.log("Inside Yt-c");
 
-  console.log(yt);
+  // console.log(yt);
   // yt.getInfo("https://www.youtube.com/watch?v=dQw4w9WgXcQ").then((info) => {
   //   console.log(info);
   // });
