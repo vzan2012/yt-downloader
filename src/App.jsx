@@ -1,8 +1,8 @@
 import "./App.scss";
-import { Card, Col, Container, Row } from "react-bootstrap";
 
 import Header from "./components/Layout/Header/Header";
 import YouTubeDownloader from "./components/YouTube/YouTubeDownloader/YouTubeDownloader";
+import { Col, Container, Row } from "react-bootstrap";
 
 function App() {
   return (
@@ -11,12 +11,7 @@ function App() {
       <Container>
         <Row xs={12}>
           <Col xs={12} lg={{ span: 6, offset: 3 }}>
-            <Card className="bg-light-subtle card-downloader">
-              <Card.Header>Download YouTube Audio / Video</Card.Header>
-              <Card.Body>
-                <YouTubeDownloader />
-              </Card.Body>
-            </Card>
+            <YouTubeDownloader />
           </Col>
         </Row>
       </Container>
