@@ -27,12 +27,12 @@ const YouTubeFileCard = ({ fileDetails }) => {
         <strong>Video Thumbnail: </strong>
         <br />
         <span>
-          {/* <Image
-              src={fileDetailsObject.thumbnails}
-              width="196"
-              height="110"
-              thumbnail
-            /> */}
+          <Image
+            src={fileDetails?.thumbnails[0]?.url}
+            width="196"
+            height="110"
+            thumbnail
+          />
         </span>
       </p>
       <p className="mb-2">

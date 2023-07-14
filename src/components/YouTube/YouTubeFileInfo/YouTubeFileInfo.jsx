@@ -42,7 +42,7 @@ const YouTubeFileInfo = ({ fileId }) => {
     );
 
     return () => {};
-  }, [fileId, fileDetailsObject]);
+  }, []);
 
   return (
     <Card className="bg-light-subtle card-file-info">
