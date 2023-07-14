@@ -1,7 +1,9 @@
 import { useState } from "react";
 import "./YouTubeDownloader.scss";
 import { Card, Button, Form } from "react-bootstrap";
-import YouTubeFileInfo from "../YouTubeFileInfo/YouTubeFileInfo";
+import YouTubeFileInfo, {
+  fetchFileInformation,
+} from "../YouTubeFileInfo/YouTubeFileInfo";
 
 const YouTubeDownloader = () => {
   const [youtubeID, setYouTubeID] = useState("");
@@ -28,6 +30,8 @@ const YouTubeDownloader = () => {
     setYouTubeID(youtubeID);
     setDisplayFileInfoCardStatus(true);
     setFileIdFieldReadStatus(true);
+
+    fetchFileInformation(youtubeID);
   };
 
   // Clear Button Handler
