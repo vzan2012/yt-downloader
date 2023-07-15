@@ -14,6 +14,7 @@ const YouTubeFileFormatForm = ({ fileDetails }) => {
     ? true
     : false;
 
+  // Fetch File Formats By Id
   const fetchFileFormatByGivenId = async (fileId, fileType) => {
     const response = await fetch(
       `${fetchURL}/get-file-formats-info?id=${fileId}&fileType=${fileType}`
@@ -24,6 +25,7 @@ const YouTubeFileFormatForm = ({ fileDetails }) => {
     setYtFileQualityList(fileQualityList);
   };
 
+  // On Change Handler - File Quality Field
   const onfileQualityHandler = () => {
     if (ytFileQuality.current.value !== "Select File Quality") {
       return setYtDownloadStatus(true);
@@ -32,7 +34,8 @@ const YouTubeFileFormatForm = ({ fileDetails }) => {
     setYtDownloadStatus(false);
   };
 
-  const onFileTypeHandler = () => {
+  // On Change Handler - File Format Field
+  const onFileFormatHandler = () => {
     if (ytFileFormat.current.value !== "Select File Format") {
       return fetchFileFormatByGivenId(
         fileDetails.videoId,
@@ -41,44 +44,49 @@ const YouTubeFileFormatForm = ({ fileDetails }) => {
     }
   };
 
+  // Download YT File Handler - Fetch the POST request
   const downloadYTFile = async (fileFormat, fileQuality) => {
-    const { quality, container, qualityLabel, itag } = fileQuality;
-    console.log(JSON.stringify(fileQuality));
-    console.log(
-      JSON.stringify({
-        fileId: fileDetails.videoId,
-        type: fileFormat,
-        quality,
-        container,
-        qualityLabel,
-        itag,
-      })
-    );
-    const response = await fetch(`${fetchURL}/download-file`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        fileId: fileDetails.videoId,
-        type: fileFormat,
-        quality,
-        container,
-        qualityLabel,
-        itag,
-      }),
-    });
+    try {
+      const { container } = fileQuality;
 
-    const data = await response.json();
-    console.log(data);
-    return data;
+      const response = await fetch(`${fetchURL}/download-file`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          fileId: fileDetails.videoId,
+          type: fileFormat,
+          ...fileQuality,
+        }),
+      });
+
+      if (response.ok) {
+        const dataBlob = await response.blob();
+        const fileNameFormat = `${
+          fileDetails.title.split(" ")[0]
+        }.${container}`;
+
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(dataBlob);
+        link.download = fileNameFormat;
+
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      } else {
+        console.error("E Error: " + response.error);
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  const onDownloadFileHandler = async () => {
+  // Download YT File Handler - Call Fetch the POST request function
+  const onDownloadFileHandler = () => {
     const fileFormat = ytFileFormat.current.value;
     const fileQuality = ytFileQuality.current.value;
-
-    console.log(fileQuality);
-    console.log(JSON.parse(...fileQuality));
-    // return await downloadYTFile(fileFormat, fileQuality);
+    return downloadYTFile(fileFormat, JSON.parse(fileQuality));
   };
   return (
     <>
@@ -86,7 +94,7 @@ const YouTubeFileFormatForm = ({ fileDetails }) => {
         aria-label="Select File Format"
         id="yt-file-type"
         className="mt-3 mb-3"
-        onChange={onFileTypeHandler}
+        onChange={onFileFormatHandler}
         ref={ytFileFormat}
       >
         <option>Select File Format</option>
@@ -103,16 +111,19 @@ const YouTubeFileFormatForm = ({ fileDetails }) => {
         ref={ytFileQuality}
       >
         <option>Select File Quality</option>
-        {ytFileQualityList.map(({ quality, container, qualityLabel, itag }) => (
-          <option
-            key={itag}
-            id={itag}
-            value={{ quality, container, qualityLabel, itag }}
-          >
-            {quality} | {container} | {qualityLabel ? qualityLabel : "-"} |{" "}
-            {itag}
-          </option>
-        ))}
+        {ytFileQualityList.map((fileQualityItem) => {
+          const { quality, container, qualityLabel, itag } = fileQualityItem;
+          return (
+            <option
+              key={itag}
+              id={itag}
+              value={JSON.stringify(fileQualityItem)}
+            >
+              {quality} | {container} | {qualityLabel ? qualityLabel : "-"} |{" "}
+              {itag}
+            </option>
+          );
+        })}
       </Form.Select>
 
       <Button
