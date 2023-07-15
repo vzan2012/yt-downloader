@@ -1,4 +1,5 @@
 import { Image } from "react-bootstrap";
+import YouTubeFileFormatForm from "../YouTubeFileFormatForm/YouTubeFileFormatForm";
 
 const YouTubeFileCard = ({ fileDetails }) => {
   return (
@@ -44,6 +45,9 @@ const YouTubeFileCard = ({ fileDetails }) => {
         <span>
           <Image src={fileDetails.author?.thumbnails[0]?.url} thumbnail />
         </span>
+      </p>
+      <p className="mb-2">
+        <YouTubeFileFormatForm fileDetails={fileDetails} />
       </p>
     </>
   );
